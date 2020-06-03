@@ -1,0 +1,1 @@
+ln -s /Users/anarion/Documents/CppProjects/AnBase/cmake-build-release/src/libanarionbase.a .
