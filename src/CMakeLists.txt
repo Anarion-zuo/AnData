@@ -12,6 +12,10 @@ add_library(anariondata data.cpp
 
         operators/ArrayOperator.cpp
         operators/ArrayTransformer.cpp
+
+        files/DatabaseManager.cpp
+        files/FileBlockManager.cpp
+        files/TableManager.cpp
         )
 
 add_library(anarionbase STATIC IMPORTED)
