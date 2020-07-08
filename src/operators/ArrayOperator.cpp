@@ -47,6 +47,7 @@ anarion::float64 anarion::ArrayOperator::stdVariance(const anarion::ArrayInterfa
 
 anarion::ArrayInterface *
 anarion::ArrayOperator::add(const anarion::ArrayInterface &x, const anarion::ArrayInterface &y) {
+    throwEqualLength(x, y);
     ArrayInterface *p = x.clone();
     p->add(y);
     return p;
@@ -54,6 +55,7 @@ anarion::ArrayOperator::add(const anarion::ArrayInterface &x, const anarion::Arr
 
 anarion::ArrayInterface *
 anarion::ArrayOperator::sub(const anarion::ArrayInterface &x, const anarion::ArrayInterface &y) {
+    throwEqualLength(x, y);
     ArrayInterface *p = x.clone();
     p->sub(y);
     return p;
@@ -61,6 +63,7 @@ anarion::ArrayOperator::sub(const anarion::ArrayInterface &x, const anarion::Arr
 
 anarion::ArrayInterface *
 anarion::ArrayOperator::mul(const anarion::ArrayInterface &x, const anarion::ArrayInterface &y) {
+    throwEqualLength(x, y);
     ArrayInterface *p = x.clone();
     p->mul(y);
     return p;
@@ -68,6 +71,7 @@ anarion::ArrayOperator::mul(const anarion::ArrayInterface &x, const anarion::Arr
 
 anarion::ArrayInterface *
 anarion::ArrayOperator::div(const anarion::ArrayInterface &x, const anarion::ArrayInterface &y) {
+    throwEqualLength(x, y);
     ArrayInterface *p = x.clone();
     p->div(y);
     return p;
@@ -110,4 +114,19 @@ anarion::ArrayInterface *anarion::ArrayOperator::concat(const anarion::Vector<an
         }
     }
     return newArray;
+}
+
+anarion::float64 anarion::ArrayOperator::dot(const anarion::ArrayInterface &x, const anarion::ArrayInterface &y) {
+    throwEqualLength(x, y);
+    float64 res = 0;
+    for (size_type index = 0; index < x.length(); ++index) {
+        res += x.getFloat(index) * y.getFloat(index);
+    }
+    return res;
+}
+
+void anarion::ArrayOperator::throwEqualLength(const anarion::ArrayInterface &x, const anarion::ArrayInterface &y) {
+    if (x.length() != y.length()) {
+        throw ArraySizeNotMatch();
+    }
 }

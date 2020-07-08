@@ -2,20 +2,20 @@ project(AnData)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_library(anariondata data.cpp
-        series/Array.cpp
-        series/Series.cpp
-        series/Matrix.cpp
+add_library(anariondata
+#        series/Array.cpp
+#        series/Matrix.cpp
 
         numbers/Number.cpp
         numbers/Integers.cpp
 
         operators/ArrayOperator.cpp
-        operators/ArrayTransformer.cpp
+        operators/MatrixOperator.cpp
 
-        files/DatabaseManager.cpp
-        files/FileBlockManager.cpp
-        files/TableManager.cpp
+        objects/FixedColumn.cpp
+
+        page/Page.cpp
+        page/PageManager.cpp
         )
 
 add_library(anarionbase STATIC IMPORTED)

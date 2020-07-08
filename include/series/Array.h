@@ -22,156 +22,6 @@ namespace anarion {
     using float32 = float;
     using float64 = double;
     using float80 = long double;
-//
-//    template<typename num_type>
-//    struct num_trait {
-//        constexpr const static num_type max = num_type::max;
-//        constexpr const static num_type min = num_type::min;
-//        constexpr const static num_type zero = num_type::zero;
-//
-//        constexpr const static bool has_infinity = num_type::has_infinity;
-//        constexpr const static num_type infinity = num_type::infinity;
-//
-//        constexpr const static bool has_nan = num_type::has_nan;
-//        constexpr const static num_type nan = num_type::nan;
-//
-//        constexpr const static num_type epsilon = num_type::epsilon;
-//
-//    };
-
-#define num_trait_vartype(num_type) \
-    using pointer_type = num_type*;\
-    using reference_type = num_type&;
-
-#define num_trait_basic_type(num_type) \
-    constexpr const static num_type max = std::numeric_limits<num_type>::max();\
-    constexpr const static num_type min = std::numeric_limits<num_type>::min();\
-    constexpr const static num_type zero = 0;\
-\
-    constexpr const static bool has_infinity = std::numeric_limits<num_type>::has_infinity;\
-    constexpr const static num_type infinity = std::numeric_limits<num_type>::infinity();\
-\
-    constexpr const static bool has_nan = std::numeric_limits<num_type>::has_quiet_NaN;\
-    constexpr const static num_type nan = std::numeric_limits<num_type>::quiet_NaN();\
-\
-    constexpr const static num_type epsilon = std::numeric_limits<num_type>::epsilon();\
-
-//
-//    template<>
-//    struct num_trait<int8> {
-//        num_trait_vartype(int8)
-//
-//        num_trait_basic_type(int8)
-//
-//        constexpr const static bool is_integer = true;
-//        constexpr const static bool is_precise = true;
-//        constexpr const static bool is_unsigned = false;
-//        constexpr const static bool is_bounded = true;
-//    };
-//
-//    template<>
-//    struct num_trait<int16> {
-//        num_trait_vartype(int16)
-//
-//        num_trait_basic_type(int16)
-//
-//        constexpr const static bool is_integer = true;
-//        constexpr const static bool is_precise = true;
-//        constexpr const static bool is_unsigned = false;
-//        constexpr const static bool is_bounded = true;
-//    };
-//
-//    template<>
-//    struct num_trait<int32> {
-//        num_trait_vartype(int32)
-//
-//        num_trait_basic_type(int32)
-//
-//        constexpr const static bool is_integer = true;
-//        constexpr const static bool is_precise = true;
-//        constexpr const static bool is_unsigned = false;
-//        constexpr const static bool is_bounded = true;
-//    };
-//
-//    template<>
-//    struct num_trait<int64> {
-//        num_trait_vartype(int64)
-//
-//        num_trait_basic_type(int64)
-//
-//        constexpr const static bool is_integer = true;
-//        constexpr const static bool is_precise = true;
-//        constexpr const static bool is_unsigned = false;
-//        constexpr const static bool is_bounded = true;
-//    };
-//
-//    template<>
-//    struct num_trait<uint8> {
-//        num_trait_vartype(uint8)
-//
-//        num_trait_basic_type(uint8)
-//
-//        constexpr const static bool is_integer = true;
-//        constexpr const static bool is_precise = true;
-//        constexpr const static bool is_unsigned = true;
-//        constexpr const static bool is_bounded = true;
-//    };
-//
-//    template<>
-//    struct num_trait<uint16> {
-//        num_trait_vartype(uint16)
-//
-//        num_trait_basic_type(uint16)
-//
-//        constexpr const static bool is_integer = true;
-//        constexpr const static bool is_precise = true;
-//        constexpr const static bool is_unsigned = true;
-//        constexpr const static bool is_bounded = true;
-//    };
-//
-//    template<>
-//    struct num_trait<uint32> {
-//        num_trait_vartype(uint32)
-//
-//        num_trait_basic_type(uint32)
-//
-//        constexpr const static bool is_integer = true;
-//        constexpr const static bool is_precise = true;
-//        constexpr const static bool is_unsigned = true;
-//        constexpr const static bool is_bounded = true;
-//    };
-//
-//    template<>
-//    struct num_trait<uint64> {
-//        num_trait_vartype(uint64)
-//
-//        num_trait_basic_type(uint64)
-//
-//        constexpr const static bool is_integer = true;
-//        constexpr const static bool is_precise = true;
-//        constexpr const static bool is_unsigned = true;
-//        constexpr const static bool is_bounded = true;
-//    };
-//
-//    template<>
-//    struct num_trait<float32> {
-//        num_trait_vartype(float32)
-//        num_trait_basic_type(float32)
-//        constexpr const static bool is_integer = false;
-//        constexpr const static bool is_precise = false;
-//        constexpr const static bool is_unsigned = false;
-//        constexpr const static bool is_bounded = true;
-//    };
-//
-//    template<>
-//    struct num_trait<float64> {
-//        num_trait_vartype(float64)
-//        num_trait_basic_type(float64)
-//        constexpr const static bool is_integer = false;
-//        constexpr const static bool is_precise = false;
-//        constexpr const static bool is_unsigned = false;
-//        constexpr const static bool is_bounded = true;
-//    };
 
     struct ArrayException : public std::exception {};
     struct ArraySizeNotMatch : public ArrayException {};
@@ -283,10 +133,12 @@ namespace anarion {
     };
 
     class ArrayInterface {
+        friend class ArrayOperator;
     public:
         virtual ~ArrayInterface() = default;
 
         virtual bool isInteger() const = 0;
+        virtual bool isBig() const = 0;
         virtual ArrayInterface *clone() const = 0;
 
         virtual size_type length() const = 0;
@@ -329,6 +181,7 @@ namespace anarion {
         IntegerArray(size_type initSize, int32 number) : Array<int32>(initSize, number) {}
 
         bool isInteger() const override;
+        bool isBig() const override ;
 
         int64 getInteger(size_type index) const override;
         float64 getFloat(size_type index) const override;
@@ -362,6 +215,7 @@ namespace anarion {
         float64 getFloat(size_type index) const override;
 
         bool isInteger() const override;
+        bool isBig() const override ;
 
         void setInteger(anarion::size_type index, uint64 num) override;
         void setFloat(size_type index, float64 num) override;
@@ -388,6 +242,7 @@ namespace anarion {
         FloatArray(size_type initSize, int32 number) : Array<float32>(initSize, number) {}
 
         bool isInteger() const override;
+        bool isBig() const override ;
 
         int64 getInteger(size_type index) const override;
         float64 getFloat(size_type index) const override;
@@ -417,6 +272,7 @@ namespace anarion {
         BigFloatArray(size_type initSize, int32 number) : Array<float64>(initSize, number) {}
 
         bool isInteger() const override;
+        bool isBig() const override ;
 
         int64 getInteger(size_type index) const override;
         float64 getFloat(size_type index) const override;
@@ -445,6 +301,7 @@ namespace anarion {
         explicit StringArray(size_type initSize) : Vector<SString>(initSize) {}
 
         bool isInteger() const override;
+        bool isBig() const override { return false; }
 
         void setInteger(anarion::size_type index, uint64 num) override;
         void setFloat(size_type index, float64 num) override;

@@ -59,3 +59,32 @@ void anarion::Matrix::push_back(const anarion::ArrayInterface &rhs) {
         }
     }
 }
+
+anarion::ArrayInterface *anarion::Matrix::getColumn(anarion::size_type index) {
+    return columns[index];
+}
+
+anarion::ArrayInterface *anarion::Matrix::getRow(anarion::size_type index) {
+    size_type retLength = getWidth();
+    ArrayInterface *array;
+    bool isint = isInteger();
+    if (isint) {
+        array = new BigIntegerArray(retLength);
+    } else {
+        array = new BigFloatArray(retLength);
+    }
+    for (size_type colIndex = 0; colIndex < retLength; ++colIndex) {
+        if (isint) {
+            array->push_back((int64)getInteger(index, colIndex));
+        }
+    }
+    return array;
+}
+
+bool anarion::Matrix::isInteger() const {
+    bool ret = true;
+    for (size_type index = 0; index < columns.size(); ++index) {
+        ret = ret && columns[index]->isInteger();
+    }
+    return ret;
+}

@@ -31,6 +31,11 @@ namespace anarion {
         size_type getWidth() const ;
         size_type getHeight() const ;
 
+        bool isInteger() const ;
+
+        ArrayInterface *getColumn(size_type index);
+        ArrayInterface *getRow(size_type index);
+
         // structural
         void push_back(const ArrayInterface &rhs);
     };

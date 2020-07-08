@@ -1,14 +1,13 @@
-#include <series/Array.h>
-#include <operators/ArrayOperator.h>
+#include <page/PageManager.h>
 
 using namespace std;
 using namespace anarion;
 
 int main() {
-    ArrayInterface *array = new BigFloatArray;
-    for (float64 x = 0; x < 1000; x += .01) {
-        array->push_back(x);
-    }
-    ArrayOperator().standardize(*array);
+    PageManager pageManager(SString("/home/anarion/testdir/"));
+    SString colName("testcol");
+    Page * page = pageManager.load(colName, 0);
+    page->write("12345", 5, 0);
+    pageManager.unload(page, colName);
     return 0;
 }

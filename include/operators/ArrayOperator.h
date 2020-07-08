@@ -10,7 +10,7 @@
 namespace anarion {
     class ArrayOperator {
     protected:
-
+        void throwEqualLength(const ArrayInterface &x, const ArrayInterface &y);
     public:
         ArrayInterface *concat(const Vector<ArrayInterface *> &arrays);
 
@@ -18,6 +18,7 @@ namespace anarion {
         ArrayInterface *sub(const ArrayInterface &x, const ArrayInterface &y);
         ArrayInterface *mul(const ArrayInterface &x, const ArrayInterface &y);
         ArrayInterface *div(const ArrayInterface &x, const ArrayInterface &y);
+        float64 dot(const ArrayInterface &x, const ArrayInterface &y);
 
         float64 sum(const ArrayInterface &array);
         float64 mean(const ArrayInterface &array);

@@ -1,1 +1,1 @@
-ln -s /Users/anarion/Documents/CppProjects/AnBase/include base
+ln -s /home/anarion/Projects/AnBase/include base
