@@ -2,7 +2,7 @@
 // Created by anarion on 7/12/20.
 //
 
-#include "objects/PageMappedObject.h"
+#include "page/PageMappedObject.h"
 #include <page/PageManager.h>
 
 void anarion::PageMappedObject::setPageNull(size_type index) {
@@ -64,6 +64,10 @@ void anarion::PageMappedObject::read(anarion::size_type beginPageIndex, anarion:
 //    if (computeIndexes(endIndex, &endPageIndex, &endPageOffset)) {
 //        throw IndexOutOfRange();
 //    }
+    // allocate page
+    if (isPageNull(beginPageIndex)) {
+        manager.getPage(this, beginPageIndex);
+    }
     // perform read
     size_type readLength = manager.readPage(beginPageIndex, beginPageOffset, data, length);
     data += readLength;

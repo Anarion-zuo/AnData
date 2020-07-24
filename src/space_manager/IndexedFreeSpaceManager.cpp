@@ -2,7 +2,7 @@
 // Created by anarion on 7/23/20.
 //
 
-#include "objects/IndexedFreeSpaceManager.h"
+#include "space_manager/IndexedFreeSpaceManager.h"
 
 anarion::size_type anarion::IndexedFreeSpaceManager::getFree() {
     size_type ret = arrayHead;

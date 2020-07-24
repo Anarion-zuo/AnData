@@ -5,7 +5,7 @@
 #ifndef ANDATA_PAGEMANAGER_H
 #define ANDATA_PAGEMANAGER_H
 
-#include <objects/PageMappedObject.h>
+#include <page/PageMappedObject.h>
 #include <base/io/channel/file/Directory.h>
 #include <base/concurrent/base/BackgroundTask.h>
 #include <base/io/channel/file/FileChannel.h>
@@ -50,7 +50,7 @@ namespace anarion {
         constexpr size_type getByteCount() const { return pageLength * pageCount; }
 
         // directory operator
-        Directory directory;
+        Directory &directory;
 
         /*
          * The actual code of the constructors in a single function.
@@ -87,7 +87,7 @@ namespace anarion {
         BitArray pagesDirty;
 
     public:
-        explicit PageManager(SString &&storageRootDirName, size_type pageLength, size_type pageCount) : directory(forward<SString>(storageRootDirName)) { constructor(pageLength, pageCount); }
+        explicit PageManager(Directory &directory, size_type pageLength, size_type pageCount) : directory(directory) { constructor(pageLength, pageCount); }
         ~PageManager();
 
         constexpr size_type getPageLength() const { return pageLength; }

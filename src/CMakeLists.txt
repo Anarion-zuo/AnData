@@ -3,9 +3,14 @@ project(AnData)
 set(CMAKE_CXX_STANDARD 14)
 
 add_library(anariondata
-        objects/PageMappedObject.cpp
-        objects/FixedArray.cpp
-        objects/IndexedFreeSpaceManager.cpp
+        page/PageMappedObject.cpp
+        objects/FixedLengthColumn.cpp
+        space_manager/IndexedFreeSpaceManager.cpp
+
+        objects/IntegerColumn.cpp
+
+        objects/Table.cpp
+        objects/TableMetaData.cpp
 
         page/PageManager.cpp
         )

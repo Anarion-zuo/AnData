@@ -1,21 +1,20 @@
 
 #include <page/PageManager.h>
-#include <objects/FixedArray.h>
+#include <objects/column/FixedLengthColumn.h>
+#include <objects/column/impl/IntegerColumn.h>
+#include <objects/table/Table.h>
 
 using namespace std;
 using namespace anarion;
 
 int main() {
-    PageManager pageManager(SString("/home/anarion/Downloads/testdir/"), 1024, 100);
+    Directory rootStorage(SString("/home/anarion/Downloads/testdir/table/"));
 
-    FixedArray fixedArray(pageManager, SString("ArrayTest"), 1);
-    const char *data = "1";
-    fixedArray.insert(data);
-    fixedArray.insert(data);
-    fixedArray.insert(data);
-    fixedArray.insert(data);
-    fixedArray.remove(2);
-    fixedArray.insert("2");
-    pageManager.unloadAll();
+    Table table(rootStorage, SString("testTable"), 1024, 100);
+    table.appendColumn(SString("xyz"), 4);
+    table.appendColumn(SString("123"), 4);
+//    table.insert(1, "1234");
+    table.insert(0, "abcd");
+
     return 0;
 }

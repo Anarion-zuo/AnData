@@ -143,7 +143,7 @@ anarion::PageManager::writePage(anarion::size_type pageIndex, anarion::size_type
     char *pageHead = getPageHeadByIndex(pageIndex);
     size_type retLength;
     // compute length
-    if (pageLength > offset + dataLength) {
+    if (pageLength >= offset + dataLength) {
         retLength = dataLength;
     } else {
         retLength = dataLength - (pageLength - offset);
@@ -160,10 +160,10 @@ anarion::size_type anarion::PageManager::readPage(anarion::size_type pageIndex, 
     char *pageHead = getPageHeadByIndex(pageIndex);
     size_type retLength;
     // compute length
-    if (pageLength > offset + dataLength) {
+    if (pageLength >= offset + dataLength) {
         retLength = dataLength;
     } else {
-        retLength = dataLength - (pageLength - offset);
+        retLength = dataLength - pageLength + offset;
     }
     // perform read
     memcpy(data, pageHead + offset, retLength);
